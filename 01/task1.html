@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практична: Основи JavaScript</title>
+    <!-- Tailwind CSS v4.3 -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style>
+        .console-font { font-family: 'Fira Code', 'Courier New', Courier, monospace; }
+        .browser-mockup { border-radius: 8px 8px 0 0; }
+        .browser-header { background: #e2e8f0; padding: 10px; display: flex; gap: 6px; border-radius: 8px 8px 0 0; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        body { counter-reset: section; }
+        h2::before {
+            counter-increment: section;
+            content: counter(section) ". ";
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed pb-20">
+
+    <!-- Header -->
+    <header class="bg-indigo-900 text-white shadow-lg py-12 mb-12">
+        <div class="max-w-5xl mx-auto px-6">
+            <h1 class="text-4xl font-extrabold mb-4">Практична робота: Перша програма на JavaScript</h1>
+            <p class="text-indigo-200 text-xl">Тема 1. Проєкт «Створення профілю героя RPG гри»</p>
+            <p class="mt-4 text-indigo-300 text-sm border-l-4 border-indigo-500 pl-4">
+                Інструкція: Виконуйте завдання послідовно, рядок за рядком у своєму редакторі коду. 
+                Всі змінні та дані зберігаються для наступних етапів програми.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 space-y-12">
+
+        <!-- 1. Підключення скриптів -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-slate-100 border-b border-slate-200 px-6 py-4">
+                <h2 class="text-2xl font-bold text-indigo-900">Способи підключення скриптів</h2>
+                <p class="text-slate-600 mt-1">Де і як працює JavaScript у браузері</p>
+            </div>
+            <div class="p-6 space-y-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 1.1: Внутрішній скрипт</h3>
+                    <p class="text-slate-700 mb-4">Створіть файл <code>index.html</code>. У тезі <code>&lt;head&gt;</code> додайте тег <code>&lt;script&gt;</code> та напишіть у ньому команду для виводу повідомлення в консоль: <code>console.log("Запуск системи...");</code>. Перевірте роботу, відкривши консоль розробника (F12).</p>
+                </div>
+                <hr class="border-slate-100">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 1.2: Зовнішній скрипт (Рекомендовано)</h3>
+                    <p class="text-slate-700 mb-4">Створіть поруч файл <code>game.js</code>. У <code>index.html</code> підключіть його за допомогою тегу <code>&lt;script src="game.js" defer&gt;&lt;/script&gt;</code>. Атрибут <code>defer</code> гарантує, що скрипт виконається лише після завантаження всього HTML. Всі подальші завдання виконуйте у файлі <code>game.js</code>.</p>
+                </div>
+                
+                <div class="bg-slate-900 rounded-lg p-4 console-font text-sm text-slate-300">
+                    <div class="text-slate-500 mb-2 border-b border-slate-700 pb-1">Console</div>
+                    <div><span class="text-blue-400">▶</span> "Запуск системи..."</div>
+                    <div><span class="text-blue-400">▶</span> "Запуск зовнішнього скрипта..."</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Діалог з користувачем -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-slate-100 border-b border-slate-200 px-6 py-4">
+                <h2 class="text-2xl font-bold text-indigo-900">Діалог з користувачем</h2>
+                <p class="text-slate-600 mt-1">alert, prompt, confirm та console</p>
+            </div>
+            <div class="p-6 space-y-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 2.1: Вітання та попередження</h3>
+                    <p class="text-slate-700 mb-4">Викличте вікно <code>alert("Вітаємо у грі 'Таємниці коду'!")</code>. Одразу після цього виведіть у консоль попередження за допомогою <code>console.warn("Початок збору даних гравця")</code>.</p>
+                </div>
+                <hr class="border-slate-100">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 2.2: Отримання відповідей</h3>
+                    <p class="text-slate-700 mb-4">Використайте <code>prompt()</code>, щоб запитати: "Введіть ім'я вашого героя:". На наступному рядку використайте <code>confirm()</code> із питанням "Увімкнути режим 'Хардкор' (1 життя)?". Поки що просто викличте ці функції, щоб побачити вікна.</p>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-6">
+                    <!-- Alert Mockup -->
+                    <div class="flex-1 bg-slate-200 p-6 rounded-lg flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_#000_1px,_transparent_1px)]" style="background-size: 20px 20px;"></div>
+                        <div class="bg-white rounded-lg shadow-xl w-64 z-10 overflow-hidden border border-slate-300 text-center">
+                            <div class="p-4"><p class="text-slate-800 text-sm">Вітаємо у грі 'Таємниці коду'!</p></div>
+                            <div class="bg-slate-50 border-t border-slate-200 p-2"><button class="bg-blue-600 text-white px-6 py-1 rounded text-sm">OK</button></div>
+                        </div>
+                    </div>
+                    <!-- Console Mockup -->
+                    <div class="flex-1 bg-slate-900 rounded-lg p-4 console-font text-sm text-slate-300">
+                        <div class="text-slate-500 mb-2 border-b border-slate-700 pb-1">Console</div>
+                        <div class="text-yellow-400 bg-yellow-900/30 p-1 border-l-2 border-yellow-400"><span class="mr-2">⚠️</span>"Початок збору даних гравця"</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Змінні -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-slate-100 border-b border-slate-200 px-6 py-4">
+                <h2 class="text-2xl font-bold text-indigo-900">Змінні</h2>
+                <p class="text-slate-600 mt-1">Оголошення констант та змінних величин</p>
+            </div>
+            <div class="p-6 space-y-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 3.1: Збереження введення користувача</h3>
+                    <p class="text-slate-700 mb-4">Модифікуйте код з попереднього кроку. Створіть змінну <code>let heroName</code> і присвойте їй результат <code>prompt</code>. Далі створіть константу <code>const isHardcore</code> і присвойте їй результат <code>confirm</code>.</p>
+                </div>
+                <hr class="border-slate-100">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 3.2: Базові характеристики</h3>
+                    <p class="text-slate-700 mb-4">Оголосіть змінні для початкових ігрових характеристик. Створіть змінну (let) <code>level</code> зі значенням 1, та змінну <code>health</code> зі значенням 100. Створіть константу (const) <code>maxInventorySize</code> зі значенням 50.</p>
+                </div>
+                <div class="bg-slate-50 border-l-4 border-blue-500 p-4 rounded text-sm text-slate-700">
+                    <strong>Підказка</strong> здоров'я та рівень будуть змінюватися під час гри, тому це <code>let</code>, а розмір інвентарю фіксований — тому <code>const</code>.
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Типи даних -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-slate-100 border-b border-slate-200 px-6 py-4">
+                <h2 class="text-2xl font-bold text-indigo-900">Типи даних</h2>
+                <p class="text-slate-600 mt-1">String, Number, Boolean, Null, Undefined</p>
+            </div>
+            <div class="p-6 space-y-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 4.1: Спеціальні типи даних</h3>
+                    <p class="text-slate-700 mb-4">Створіть змінну <code>let currentWeapon = null;</code> (символізує, що зброї поки що немає, але контейнер готовий). Створіть змінну <code>let magicSkill;</code> без присвоєння значення (вона автоматично стане <code>undefined</code>).</p>
+                </div>
+                <hr class="border-slate-100">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 4.2: Перевірка типів (typeof)</h3>
+                    <p class="text-slate-700 mb-4">За допомогою оператора <code>typeof</code> виведіть у консоль типи змінних: <code>heroName</code>, <code>level</code>, <code>isHardcore</code>, <code>currentWeapon</code> та <code>magicSkill</code>.</p>
+                </div>
+
+                <div class="bg-slate-900 rounded-lg p-4 console-font text-sm text-slate-300">
+                    <div class="text-slate-500 mb-2 border-b border-slate-700 pb-1">Console</div>
+                    <div><span class="text-blue-400">▶</span> "string" <span class="text-slate-500">// typeof heroName</span></div>
+                    <div><span class="text-blue-400">▶</span> "number" <span class="text-slate-500">// typeof level</span></div>
+                    <div><span class="text-blue-400">▶</span> "boolean" <span class="text-slate-500">// typeof isHardcore</span></div>
+                    <div><span class="text-blue-400">▶</span> "object" <span class="text-slate-500">// typeof currentWeapon (особливість JS)</span></div>
+                    <div><span class="text-blue-400">▶</span> "undefined" <span class="text-slate-500">// typeof magicSkill</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Операції зі змінними -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-slate-100 border-b border-slate-200 px-6 py-4">
+                <h2 class="text-2xl font-bold text-indigo-900">Операції зі змінними</h2>
+                <p class="text-slate-600 mt-1">Арифметичні дії та конкатенація рядків</p>
+            </div>
+            <div class="p-6 space-y-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 5.1: Математичні події</h3>
+                    <p class="text-slate-700 mb-4">Ваш персонаж знайшов артефакт! Збільште змінну <code>level</code> на 1, використовуючи інкремент (<code>++</code>). Також персонаж наступив на пастку — зменште <code>health</code> на 15 одиниць, використовуючи оператор комбінованого присвоєння (<code>-=</code>).</p>
+                </div>
+                <hr class="border-slate-100">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 5.2: Рядкові операції</h3>
+                    <p class="text-slate-700 mb-4">Створіть змінну <code>let title = " Шукач пригод";</code>. Створіть нову змінну <code>fullHeroName</code>, яка буде результатом додавання (конкатенації) змінних <code>heroName</code> та <code>title</code>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Оператори порівняння -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-slate-100 border-b border-slate-200 px-6 py-4">
+                <h2 class="text-2xl font-bold text-indigo-900">Оператори порівняння</h2>
+                <p class="text-slate-600 mt-1">Логічні вирази та строга рівність</p>
+            </div>
+            <div class="p-6 space-y-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 6.1: Запит віку та порівняння</h3>
+                    <p class="text-slate-700 mb-4">Використайте <code>prompt</code>, щоб запитати "Вкажіть вік гравця:", і збережіть у змінну <code>playerAge</code>. Далі створіть змінну <code>let isAdult = playerAge >= 18;</code>. <em>(Результатом буде true або false)</em>.</p>
+                </div>
+                <hr class="border-slate-100">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 6.2: Строга нерівність</h3>
+                    <p class="text-slate-700 mb-4">Перевірте, чи гравець не залишив поле імені порожнім. Створіть змінну <code>let isValidName = heroName !== "";</code>. Ми використовуємо строго не дорівнює (<code>!==</code>).</p>
+                </div>
+                <div class="bg-slate-900 rounded-lg p-4 console-font text-sm text-slate-300">
+                    <div class="text-slate-500 mb-2 border-b border-slate-700 pb-1">Console (Якщо вік 16, а ім'я введено)</div>
+                    <div><span class="text-blue-400">▶</span> false <span class="text-slate-500">// isAdult</span></div>
+                    <div><span class="text-blue-400">▶</span> true <span class="text-slate-500">// isValidName</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Умови -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-slate-100 border-b border-slate-200 px-6 py-4">
+                <h2 class="text-2xl font-bold text-indigo-900">Умови (if-else)</h2>
+                <p class="text-slate-600 mt-1">Розгалуження логіки програми</p>
+            </div>
+            <div class="p-6 space-y-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 7.1: Базова умова</h3>
+                    <p class="text-slate-700 mb-4">Напишіть умову <code>if</code>: якщо <code>isValidName</code> дорівнює <code>false</code> (або <code>!isValidName</code>), то виведіть <code>alert("Ім'я не вказано! Призначено стандартне.")</code> та змініть значення <code>fullHeroName</code> на "Невідомий мандрівник".</p>
+                </div>
+                <hr class="border-slate-100">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 7.2: Складна умова (if - else if - else)</h3>
+                    <p class="text-slate-700 mb-4">Налаштуємо стартове здоров'я в залежності від віку та режиму. <br>
+                    - Якщо <code>isHardcore</code> дорівнює <code>true</code>, встановіть <code>health = 1</code>.<br>
+                    - Інакше, якщо <code>isAdult</code> дорівнює <code>false</code> (<code>!isAdult</code>), встановіть <code>health = 200</code> (спрощений режим для дітей).<br>
+                    - В іншому випадку (<code>else</code>), встановіть <code>health = 100</code>.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Шаблони запису -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-slate-100 border-b border-slate-200 px-6 py-4">
+                <h2 class="text-2xl font-bold text-indigo-900">Шаблони запису та вирази</h2>
+                <p class="text-slate-600 mt-1">Зворотні лапки (`) та інтерполяція ${}</p>
+            </div>
+            <div class="p-6 space-y-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 8.1: Текстовий шаблон</h3>
+                    <p class="text-slate-700 mb-4">Згенеруйте фінальне текстове повідомлення у консоль. Замість конкатенації плюсами, використайте зворотні лапки (backticks). <br>Напишіть: <code>console.log(`Персонаж ${fullHeroName} створений! Рівень: ${level}. HP: ${health}`);</code></p>
+                </div>
+                <hr class="border-slate-100">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 8.2: HTML шаблон</h3>
+                    <p class="text-slate-700 mb-4">Створіть змінну <code>let htmlCard</code>. Використовуючи багаторядкові зворотні лапки, напишіть всередині неї структуру HTML-картки, підставивши туди змінні <code>fullHeroName</code>, <code>level</code> та <code>health</code> (див. код нижче).</p>
+                </div>
+                
+                <div class="bg-slate-800 rounded p-4 overflow-x-auto text-slate-300 console-font text-sm">
+<pre><code>let htmlCard = `
+  &lt;div class="card"&gt;
+    &lt;h2&gt;🗡️ ${fullHeroName}&lt;/h2&gt;
+    &lt;p&gt;Статус: ${isHardcore ? "Хардкор" : "Стандарт"}&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Рівень: ${level}&lt;/li&gt;
+      &lt;li&gt;Здоров'я: ${health} HP&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+`;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Виведення на сторінку -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden border-l-4 border-l-green-500">
+            <div class="bg-slate-100 border-b border-slate-200 px-6 py-4">
+                <h2 class="text-2xl font-bold text-indigo-900">Виведення на сторінку (DOM)</h2>
+                <p class="text-slate-600 mt-1">document.getElementById та document.body.innerHTML</p>
+            </div>
+            <div class="p-6 space-y-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 9.1: Вставка в конкретний елемент</h3>
+                    <p class="text-slate-700 mb-4">У вашому файлі <code>index.html</code> (всередині тегу <code>&lt;body&gt;</code>) створіть порожній блок: <code>&lt;div id="app"&gt;&lt;/div&gt;</code>. У файлі скрипта використайте <code>document.getElementById("app").innerHTML = htmlCard;</code>, щоб помістити створену картку гравця на сторінку.</p>
+                </div>
+                <hr class="border-slate-100">
+                <div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Завдання 9.2: Додавання в кінець body</h3>
+                    <p class="text-slate-700 mb-4">Тепер за допомогою <code>document.body.innerHTML += ...</code> додайте в самий кінець сторінки (не видаляючи попередній контент завдяки оператору <code>+=</code>) невеличкий футер: <code>`&lt;footer&gt;&copy; 2026 Створено в рамках курсу&lt;/footer&gt;`</code>.</p>
+                </div>
+
+                <!-- Візуалізація фінального результату -->
+                <div class="mt-8 border border-slate-300 shadow-2xl rounded-lg overflow-hidden">
+                    <div class="browser-header">
+                        <div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div>
+                    </div>
+                    <div class="p-8 bg-white text-slate-800 min-h-[300px] flex flex-col justify-between">
+                        
+                        <!-- Результат завдання 9.1 -->
+                        <div>
+                            <div class="max-w-sm bg-slate-800 text-white p-6 rounded-xl shadow-lg border border-slate-700">
+                                <h2 class="text-2xl font-bold mb-1 text-yellow-400">🗡️ Артур Шукач пригод</h2>
+                                <p class="text-slate-400 text-sm mb-4">Статус: Стандарт</p>
+                                <ul class="space-y-2 border-t border-slate-600 pt-4">
+                                    <li class="flex justify-between"><span>Рівень:</span> <span class="font-bold">2</span></li>
+                                    <li class="flex justify-between"><span>Здоров'я:</span> <span class="font-bold text-red-400">85 HP</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Результат завдання 9.2 -->
+                        <footer class="mt-12 text-center text-slate-400 border-t border-slate-200 pt-4 text-sm">
+                            © 2026 Створено в рамках курсу
+                        </footer>
+
+                    </div>
+                </div>
+                <p class="text-center text-sm text-slate-500 italic mt-2">Так виглядатиме ваша сторінка після правильного виконання всіх кроків.</p>
+
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>
