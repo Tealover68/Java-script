@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завдання: Масиви та цикли (JS)</title>
+    <!-- Підключення Tailwind CSS через CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Додаткові стилі для красивого відображення коду */
+        pre {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .task-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #3b82f6;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans leading-relaxed">
+
+    <div class="max-w-5xl mx-auto p-6">
+        
+        <!-- Заголовок -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-slate-900 mb-4">Практичне заняття: Масиви та цикли</h1>
+            <p class="text-lg text-slate-600">Сьогодні ми створимо сторінку-каталог фільмів "Пірати Карибського моря" з можливістю вибору теми та автоматичним підрахунком статистики.</p>
+        </header>
+
+        <!-- Підготовка -->
+        <section class="bg-white rounded-xl shadow-md p-8 mb-10 border-t-4 border-emerald-500">
+            <h2 class="text-2xl font-bold text-slate-800 mb-4">🛠 Підготовка до роботи</h2>
+            <p class="mb-4">Створіть папку для проекту. У ній створіть три файли: <code>index.html</code>, <code>style.css</code> та <code>main.js</code>. Скопіюйте початковий код у відповідні файли.</p>
+            
+            <details class="mb-4 group">
+                <summary class="cursor-pointer font-semibold text-blue-600 hover:text-blue-800">Показати код для index.html</summary>
+                <div class="mt-2">
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="uk"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+    &lt;title&gt;Пірати&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- defer: скрипт виконається після того, як браузер прочитає весь HTML --&gt;
+    &lt;script src="main.js" defer&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+            </details>
+
+            <details class="mb-4 group">
+                <summary class="cursor-pointer font-semibold text-blue-600 hover:text-blue-800">Показати код для style.css (Стилі вже готові)</summary>
+                <div class="mt-2">
+<pre><code>@import url('https://fonts.googleapis.com/css2?family=Philosopher&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+*{ margin: 0; padding: 0; }
+.dark{ background-color: black; color: white; }
+.light { background-color: white; color: black; }
+.moviesList{ display: flex; justify-content: center; }
+.moviesList li{ list-style-type: none; margin: 25px; width: 170px; text-align: center; font-family: 'Philosopher', sans-serif; font-size: 20px; }
+.moviesList img{ width: 170px; }
+h1{ text-align: center; border-bottom: 2px solid; margin-left: 100px; margin-right: 100px; margin-bottom: 60px; padding: 20px; padding-top: 60px; font-family: 'Philosopher', sans-serif; font-size: 50px; }
+h2{ text-align: center; border-bottom: 2px solid; margin-left: 100px; margin-right: 100px; margin-bottom: 60px; padding: 20px; padding-top: 60px; font-family: 'Philosopher', sans-serif; font-size: 40px; }
+h3{ text-align: center; margin-left: 100px; margin-right: 100px; padding: 60px 60px 10px; font-family: 'Philosopher', sans-serif; font-size: 35px; }
+.rating{ text-align: center; font-family: 'Philosopher', sans-serif; font-size: 22px; }
+.description{ margin-left: 100px; margin-right: 100px; padding: 30px 60px 60px; font-family: 'Roboto', sans-serif; font-size: 25px; text-align: justify; }
+.stats{ margin: 0 100px; padding: 40px 60px 60px; border-top: 2px solid; text-align: center; font-family: 'Philosopher', sans-serif; font-size: 24px; line-height: 1.5; }
+.darkLink{ text-decoration: none; color: white; }
+.lightLink{ text-decoration: none; color: black; }</code></pre>
+                </div>
+            </details>
+
+            <details class="mb-4 group">
+                <summary class="cursor-pointer font-semibold text-blue-600 hover:text-blue-800">Показати масив даних для main.js (Обов'язково скопіюйте!)</summary>
+                <div class="mt-2">
+                    <p class="text-sm text-gray-600 mb-2">Збережіть кілька картинок з інтернету у папку з проектом і назвіть їх 1.jpg, 2.jpg і т.д., або використовуйте посилання на картинки замість назв файлів.</p>
+<pre><code>// movies — двовимірний масив: кожен рядок — один фільм.
+// Індекси всередині рядка: 
+// [0] - назва, 
+// [1] - картинка, 
+// [2] - опис, 
+// [3] - оцінка
+
+const movies = [
+	['Пірати Карибського моря: Прокляття Чорної Перлини', '1.jpg', 'Американський фантастичний пригодницький фільм 2003 року...', 8.1],
+	['Пірати Карибського моря: Скриня мерця', '2.jpg', 'Американський пригодницький фільм 2006 року компанії...', 7.4],
+	['Пірати Карибського моря: На краю світу', '3.jpg', 'Американський пригодницький фільм 2007 року...', 7.1],
+	['Пірати Карибського моря: На дивних берегах', '4.jpg', 'Американська пригодницька стрічка 2011 року...', 6.6],
+	['Пірати Карибського моря: Помста Салазара', '5.jpg', 'Американський пригодницький фільм-фентезі...', 6.5]
+];</code></pre>
+                </div>
+            </details>
+        </section>
+
+        <!-- Завдання 1 -->
+        <section class="task-card">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-xl mr-4">1</div>
+                <h2 class="text-2xl font-bold text-slate-800">Знайомство з багатовимірним масивом</h2>
+            </div>
+            <p class="mb-4">Ваш масив <code>movies</code> містить інші масиви всередині себе. Давайте перевіримо, як з ним працювати.</p>
+            
+            <h3 class="font-semibold text-lg mb-2">Кроки виконання:</h3>
+            <ul class="list-disc list-inside space-y-2 mb-6 text-slate-700">
+                <li>Виведіть у консоль загальну кількість фільмів (довжину головного масиву).</li>
+                <li>Виведіть у консоль назву першого фільму.</li>
+                <li>Напишіть <strong>вкладений цикл <code>for</code></strong> (цикл у циклі). Перший цикл перебирає фільми, другий — характеристики кожного фільму.</li>
+                <li>Всередині другого циклу виведіть інформацію у консоль. Додайте умову <code>if</code>, щоб <strong>не виводити</strong> опис фільму (індекс 2), оскільки він занадто довгий.</li>
+            </ul>
+
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded text-amber-800 text-sm">
+                <strong>💡 Підказка:</strong> Щоб отримати доступ до елемента двовимірного масиву, використовуйте два індекси поспіль: <code>масив[рядок][стовпець]</code>. Наприклад, <code>movies[0][3]</code> — це оцінка першого фільму.
+            </div>
+        </section>
+
+        <!-- Завдання 2 -->
+        <section class="task-card">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-xl mr-4">2</div>
+                <h2 class="text-2xl font-bold text-slate-800">Цикл while + switch: Вибір теми</h2>
+            </div>
+            <p class="mb-4">Зробимо так, щоб користувач міг обрати тему оформлення (темну або світлу), і будемо запитувати його, поки він не введе правильне значення.</p>
+            
+            <h3 class="font-semibold text-lg mb-2">Кроки виконання:</h3>
+            <ul class="list-disc list-inside space-y-2 mb-6 text-slate-700">
+                <li>Створіть змінну <code>selectedStyle</code> зі значенням за замовчуванням <code>'dark'</code>.</li>
+                <li>Створіть логічну змінну <code>notAnswered</code> зі значенням <code>true</code>.</li>
+                <li>Створіть цикл <code>while</code>, який працюватиме, поки <code>notAnswered</code> є <code>true</code>.</li>
+                <li>Всередині циклу запитайте користувача через <code>prompt</code>: "Виберіть тему: темна чи світла".</li>
+                <li>Якщо користувач натисне "Скасувати" (значення <code>null</code>), зупиніть цикл.</li>
+                <li>Створіть конструкцію <code>switch</code>, яка перевіряє відповідь.</li>
+                <li>Якщо введено "темна" — змініть <code>selectedStyle</code> на 'dark' і зупиніть повторення циклу. Якщо "світла" — на 'light' і також зупиніть.</li>
+                <li>Для інших випадків (<code>default</code>) виводьте <code>alert</code>, що варіант неправильний (цикл піде на нове коло).</li>
+            </ul>
+
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded text-amber-800 text-sm">
+                <strong>💡 Підказка:</strong> Користувач може ввести слово з пробілами або великими літерами. Щоб <code>switch</code> працював без помилок, застосуйте до відповіді методи очищення: <code>відповідь.trim().toLowerCase()</code>. Щоб достроково вийти з циклу при null, використайте команду <code>break</code>.
+            </div>
+        </section>
+
+        <!-- Завдання 3 -->
+        <section class="task-card">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-xl mr-4">3</div>
+                <h2 class="text-2xl font-bold text-slate-800">Обчислення середньої оцінки</h2>
+            </div>
+            <p class="mb-4">Використаємо цикл <code>while</code> для підрахунку середнього балу всіх фільмів.</p>
+            
+            <h3 class="font-semibold text-lg mb-2">Кроки виконання:</h3>
+            <ul class="list-disc list-inside space-y-2 mb-6 text-slate-700">
+                <li>Створіть змінну <code>sum</code> (для накопичення суми) та змінну-лічильник <code>k</code>. Обидві дорівнюють 0.</li>
+                <li>Напишіть цикл <code>while</code>, який перебирає всі елементи масиву <code>movies</code>.</li>
+                <li>На кожній ітерації додавайте оцінку поточного фільму до змінної <code>sum</code>.</li>
+                <li><strong>Не забудьте</strong> збільшувати лічильник <code>k</code> на 1 всередині циклу!</li>
+                <li>Після циклу створіть змінну <code>average</code> та обчисліть середню оцінку (сума поділена на кількість фільмів).</li>
+            </ul>
+
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded text-amber-800 text-sm">
+                <strong>💡 Підказка:</strong> Щоб результат виглядав гарно (наприклад, 7.1, а не 7.140000001), використайте метод <code>.toFixed(1)</code> для результату ділення. Згадайте, під яким індексом знаходиться оцінка у внутрішньому масиві.
+            </div>
+        </section>
+
+        <!-- Завдання 4 -->
+        <section class="task-card">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-xl mr-4">4</div>
+                <h2 class="text-2xl font-bold text-slate-800">Фільтрація: найкращі фільми</h2>
+            </div>
+            <p class="mb-4">Знайдемо фільми, які мають оцінку 7 або вище, і збережемо їхні назви в окремий масив.</p>
+            
+            <h3 class="font-semibold text-lg mb-2">Кроки виконання:</h3>
+            <ul class="list-disc list-inside space-y-2 mb-6 text-slate-700">
+                <li>Створіть новий <strong>порожній масив</strong> <code>bestMovies</code>.</li>
+                <li>Використайте цикл <code>for</code> для проходження по масиву <code>movies</code>.</li>
+                <li>Всередині циклу напишіть умову <code>if</code>: якщо оцінка фільму більше або дорівнює 7...</li>
+                <li>...тоді додайте <strong>назву</strong> цього фільму в масив <code>bestMovies</code>.</li>
+            </ul>
+
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded text-amber-800 text-sm">
+                <strong>💡 Підказка:</strong> Щоб додати новий елемент у кінець існуючого масиву, використовується метод <code>назваМасиву.push(новеЗначення)</code>.
+            </div>
+        </section>
+
+        <!-- Завдання 5 -->
+        <section class="task-card">
+            <div class="flex items-center mb-4">
+                <div class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-xl mr-4">5</div>
+                <h2 class="text-2xl font-bold text-slate-800">Формування сторінки (Виведення у DOM)</h2>
+            </div>
+            <p class="mb-4">Тепер найцікавіше — перетворимо наші дані на реальний HTML-код і покажемо його на екрані!</p>
+            
+            <h3 class="font-semibold text-lg mb-2">Кроки виконання:</h3>
+            <ul class="list-disc list-inside space-y-2 mb-6 text-slate-700">
+                <li>Створіть текстову змінну <code>header</code>. Запишіть у неї стартовий HTML-код: тег <code>&lt;header&gt;</code> з класом обраної теми (<code>selectedStyle</code>), заголовок <code>&lt;h1&gt;</code> та відкриваючий тег списку <code>&lt;ul class="moviesList"&gt;</code>.</li>
+                <li>Пройдіться циклом <code>for</code> по фільмах і додайте (через <code>+=</code>) до змінної <code>header</code> елементи списку <code>&lt;li&gt;</code>. Кожен пункт має містити картинку та посилання з назвою фільму.</li>
+                <li>Закрийте теги списку та хедера.</li>
+                <li>Аналогічно створіть змінну <code>description</code> для секції з описами (використовуйте теги <code>&lt;section&gt;</code>, <code>&lt;h3&gt;</code> для назви, <code>&lt;p&gt;</code> для опису та оцінки). Пройдіться циклом, щоб згенерувати описи для всіх фільмів.</li>
+                <li>В кінці секції з описами додайте параграф зі статистикою: виведіть змінну <code>average</code> та масив <code>bestMovies</code>.</li>
+                <li>Об'єднайте <code>header</code> та <code>description</code> і запишіть результат у <code>document.body.innerHTML</code>.</li>
+            </ul>
+
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded text-amber-800 text-sm">
+                <strong>💡 Підказка:</strong> Використовуйте шаблонні рядки (зворотні апострофи <code>`</code>), щоб зручно підставляти змінні у HTML-код через <code>${}</code>. Щоб гарно вивести масив з найкращими фільмами через кому, використайте метод <code>bestMovies.join(', ')</code>.
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
