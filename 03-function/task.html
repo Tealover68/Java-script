@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завдання: Створення магазину Funko Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Стилі для красивого відображення коду */
+        pre {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .task-step {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        .task-step::before {
+            content: "👉";
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased pb-20">
+
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white shadow-md py-8 mb-10">
+        <div class="max-w-4xl mx-auto px-4">
+            <h1 class="text-3xl font-bold mb-2">Практичне завдання: Інтерактивний магазин "Funko Shop"</h1>
+            <p class="text-indigo-100">Закріплюємо роботу з масивами, методами (filter, map, find) та DOM-маніпуляціями.</p>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 space-y-10">
+
+        <!-- Setup Section -->
+        <section class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+            <h2 class="text-2xl font-bold text-slate-700 mb-4">🛠 Підготовка до роботи</h2>
+            <p class="mb-4">Перш ніж писати JavaScript, створіть два файли у вашій папці проекту: <code>index.html</code> та <code>style.css</code>. Скопіюйте туди наступний код.</p>
+            
+            <details class="mb-4">
+                <summary class="font-semibold cursor-pointer text-indigo-600 hover:text-indigo-800">HTML каркас (index.html)</summary>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="uk"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+    &lt;title&gt;Funko Shop&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="app" class="shop-wrapper"&gt;&lt;/div&gt;
+    &lt;script src="javacod.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </details>
+
+            <details>
+                <summary class="font-semibold cursor-pointer text-indigo-600 hover:text-indigo-800">CSS Стилі (style.css)</summary>
+<pre><code>@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: #2d1f22;
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.shop-wrapper { max-width: 1200px; margin: 0 auto; }
+
+.shop-wrapper header {
+    background: linear-gradient(135deg, #633C41, #a34e5a);
+    padding: 30px; border-radius: 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    margin-bottom: 40px; color: white;
+}
+
+.shop-wrapper header h1 { font-size: 40px; text-transform: uppercase; letter-spacing: 2px; }
+.shop-wrapper header p {
+    font-size: 18px; font-weight: 600;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 20px; border-radius: 10px;
+}
+
+.shop-wrapper section h2 {
+    color: white; font-size: 32px; text-align: center;
+    margin-bottom: 30px; font-weight: 800;
+}
+
+.shop-wrapper ul {
+    list-style: none; display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;
+}
+
+.shop-wrapper li {
+    background: white; width: 280px; border-radius: 15px; overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex; flex-direction: column;
+}
+
+.shop-wrapper li:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); }
+
+.shop-wrapper li img { width: 100%; height: 280px; object-fit: cover; border-bottom: 3px solid #633C41; }
+.shop-wrapper li div { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+.shop-wrapper li h3 { font-size: 18px; margin-bottom: 15px; color: #2d1f22; text-align: center; font-weight: 600; }
+.shop-wrapper li span {
+    display: block; background-color: #633C41; color: white; text-align: center;
+    padding: 10px; border-radius: 10px; font-size: 20px; font-weight: 800;
+}</code></pre>
+            </details>
+        </section>
+
+        <!-- Завдання 1 -->
+        <section class="bg-white p-8 rounded-xl shadow-sm border border-indigo-200 border-t-4 border-t-indigo-500">
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Завдання 1: Дані та стан додатку</h2>
+            <p class="text-slate-600 mb-6">На цьому етапі ми підготуємо базу даних нашого магазину та об'єкт, який буде слідкувати за станом (хто авторизований).</p>
+            
+            <p class="mb-2 font-semibold">1.1. Скопіюйте ці масиви у ваш файл <code>javacod.js</code>:</p>
+<pre><code>const users = [    
+    { login: 'Mark', password: '1', type: 'VIP', sale: 15 },
+    { login: 'Pol', password: '2', type: 'public', sale: 5 }
+];
+            
+const products = [
+    { name: 'Daenerys Sitting on Throne', price: 512, img: 'daenerys.jpeg', type: 'public' },
+    { name: 'Fawkes Vinyl Figure', price: 312, img: 'fawkes.jpeg', type: 'VIP' },
+    { name: 'Flash Vinyl Figure', price: 645, img: 'flash.jpeg', type: 'public' },
+    { name: 'Kakashi', price: 700, img: 'kakashi.jpeg', type: 'VIP' },
+    { name: 'The Mandalorian on Blurg', price: 400, img: 'mandalorian.jpeg', type: 'public' },
+    { name: 'Naruto', price: 639, img: 'naruto.jpeg', type: 'VIP' },
+    { name: 'Rey Vinyl Figure', price: 138, img: 'rey.jpeg', type: 'public' },
+    { name: 'Steve Trevor Vinyl Figure', price: 138, img: 'steve.jpeg', type: 'public' },
+    { name: 'Moana Te Ka', price: 211, img: 'te_ka.jpeg', type: 'public' }
+];</code></pre>
+
+            <div class="task-step">
+                <span class="font-semibold">1.2. Створіть об'єкт стану <code>appState</code>.</span><br>
+                Створіть константу, яка буде об'єктом. У ній має бути три властивості:
+                <ul class="list-disc ml-6 mt-2 text-slate-700">
+                    <li><code>currentUser</code> — зі значенням <code>null</code> (бо на старті ніхто не увійшов).</li>
+                    <li><code>defaultType</code> — зі значенням <code>'public'</code> (тип користувача за замовчуванням).</li>
+                    <li><code>defaultSale</code> — зі значенням <code>0</code> (знижка за замовчуванням).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Завдання 2 -->
+        <section class="bg-white p-8 rounded-xl shadow-sm border border-emerald-200 border-t-4 border-t-emerald-500">
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Завдання 2: Допоміжні функції та Авторизація</h2>
+            <p class="text-slate-600 mb-6">Тут ми напишемо логіку пошуку користувача, прорахунку знижки та функцію старту програми.</p>
+            
+            <div class="task-step">
+                <span class="font-semibold">2.1. Функція перевірки користувача <code>verifyUser</code>.</span><br>
+                Напишіть стрілкову функцію, яка приймає три параметри: логін, пароль та масив користувачів. 
+                Вона повинна використовувати метод масиву <code>.find()</code>, щоб знайти і повернути об'єкт користувача, у якого співпадають і логін, і пароль з переданими параметрами.
+            </div>
+
+            <div class="task-step">
+                <span class="font-semibold">2.2. Функція розрахунку ціни <code>calculatePrice</code>.</span><br>
+                Напишіть стрілкову функцію, яка приймає ціну та відсоток знижки. Вона має повернути нову ціну зі знижкою. Використайте <code>Math.round()</code>, щоб округлити результат до цілого числа.
+            </div>
+
+            <div class="task-step">
+                <span class="font-semibold">2.3. Головна функція ініціалізації <code>initApp</code>.</span><br>
+                Створіть стрілкову функцію <code>initApp</code> (поки без параметрів). У ній:
+                <ol class="list-decimal ml-6 mt-2 text-slate-700 space-y-2">
+                    <li>Запитайте користувача через <code>confirm()</code>: "Ви зареєстрований користувач?".</li>
+                    <li>Якщо він натиснув "ОК" (true), запитайте логін та пароль за допомогою <code>prompt()</code>.</li>
+                    <li>Викличте вашу функцію <code>verifyUser()</code> і передайте їй введені дані. Результат запишіть у змінну.</li>
+                    <li>Якщо користувача знайдено, перезапишіть властивість <code>currentUser</code> у вашому об'єкті <code>appState</code> цим користувачем. Виведіть <code>alert()</code> з привітанням і розміром знижки.</li>
+                    <li>Якщо не знайдено — виведіть <code>alert()</code>, що він увійшов як гість.</li>
+                    <li>У самому кінці функції <code>initApp</code> (за межами умов) викличте функцію <code>renderPage()</code> (ми створимо її в наступному кроці).</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Завдання 3 -->
+        <section class="bg-white p-8 rounded-xl shadow-sm border border-amber-200 border-t-4 border-t-amber-500">
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Завдання 3: Рендер сторінки</h2>
+            <p class="text-slate-600 mb-6">Фінальний етап — виведення товарів на екран в залежності від прав користувача.</p>
+            
+            <div class="task-step">
+                <span class="font-semibold">3.1. Створіть функцію <code>renderPage</code>.</span><br>
+                На початку функції визначте дві змінні: <code>userType</code> та <code>userSale</code>. Використайте тернарний оператор (<code>умова ? так : ні</code>). Якщо в <code>appState.currentUser</code> є дані, беріть тип і знижку звідти. Якщо немає — беріть дефолтні значення з <code>appState</code>.
+            </div>
+
+            <div class="task-step">
+                <span class="font-semibold">3.2. Фільтрація товарів.</span><br>
+                Створіть масив <code>availableProducts</code>. Застосуйте метод <code>.filter()</code> до масиву <code>products</code>. Логіка: якщо поточний <code>userType</code> дорівнює 'public', а тип товару 'VIP', то товар не повинен потрапити в новий масив (повертаємо false). Решту — пропускаємо (true).
+            </div>
+
+            <div class="task-step">
+                <span class="font-semibold">3.3. Генерація HTML.</span><br>
+                Створіть змінну <code>productListHTML</code>. Застосуйте метод <code>.map()</code> до відфільтрованого масиву <code>availableProducts</code>. 
+                <ul class="list-disc ml-6 mt-2 text-slate-700">
+                    <li>Всередині <code>.map()</code> розструктуруйте об'єкт товару, щоб дістати <code>name</code>, <code>price</code>, <code>img</code>.</li>
+                    <li>Вирахуйте фінальну ціну, викликавши <code>calculatePrice()</code>.</li>
+                    <li>Поверніть шаблонний рядок (backticks) з тегом <code>&lt;li&gt;</code>, всередині якого буде картинка, заголовок <code>&lt;h3&gt;</code> з назвою та <code>&lt;span&gt;</code> з ціною. Класи HTML прописувати не потрібно, вони вже задані в CSS!</li>
+                    <li>Не забудьте в кінці після <code>.map()</code> викликати <code>.join('')</code>, щоб перетворити масив у суцільний рядок.</li>
+                </ul>
+            </div>
+
+            <div class="task-step">
+                <span class="font-semibold">3.4. Виведення на сторінку.</span><br>
+                <ul class="list-disc ml-6 mt-2 text-slate-700">
+                    <li>Створіть змінну для тексту хедера. Якщо користувач є — "Акаунт: [його логін]", інакше — "Режим гостя".</li>
+                    <li>Знайдіть у DOM елемент з <code>id="app"</code>.</li>
+                    <li>Використовуючи <code>innerHTML</code>, вставте в цей елемент HTML-каркас: тег <code>&lt;header&gt;</code> (з назвою магазину та вашою змінною для акаунту) та <code>&lt;section&gt;</code> (з заголовком "Новинки" і тегом <code>&lt;ul&gt;</code>, всередину якого вставте згенерований <code>productListHTML</code>).</li>
+                </ul>
+            </div>
+
+            <div class="task-step mt-6 bg-amber-50 p-4 border border-amber-200 rounded-lg">
+                <span class="font-bold text-amber-800">🔥 Останній крок:</span><br>
+                В самому кінці вашого файлу <code>javacod.js</code> не забудьте просто викликати функцію <code>initApp();</code>, щоб запустити всю написану логіку!
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>

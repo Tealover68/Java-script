@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: #2d1f22;
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.shop-wrapper { max-width: 1200px; margin: 0 auto; }
+
+.shop-wrapper header {
+    background: linear-gradient(135deg, #633C41, #a34e5a);
+    padding: 30px; border-radius: 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    margin-bottom: 40px; color: white;
+}
+
+.shop-wrapper header h1 { font-size: 40px; text-transform: uppercase; letter-spacing: 2px; }
+.shop-wrapper header p {
+    font-size: 18px; font-weight: 600;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 20px; border-radius: 10px;
+}
+
+.shop-wrapper section h2 {
+    color: white; font-size: 32px; text-align: center;
+    margin-bottom: 30px; font-weight: 800;
+}
+
+.shop-wrapper ul {
+    list-style: none; display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;
+}
+
+.shop-wrapper li {
+    background: white; width: 280px; border-radius: 15px; overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex; flex-direction: column;
+}
+
+.shop-wrapper li:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); }
+
+.shop-wrapper li img { width: 100%; height: 280px; object-fit: cover; border-bottom: 3px solid #633C41; }
+.shop-wrapper li div { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+.shop-wrapper li h3 { font-size: 18px; margin-bottom: 15px; color: #2d1f22; text-align: center; font-weight: 600; }
+.shop-wrapper li span {
+    display: block; background-color: #633C41; color: white; text-align: center;
+    padding: 10px; border-radius: 10px; font-size: 20px; font-weight: 800;
+}
