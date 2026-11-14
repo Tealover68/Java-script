@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game - Знайди пару</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="game-container">
+        <header class="header">
+            <h1>Memory Game</h1>     
+            <button id="rules-btn" class="rules-btn">Правила гри</button>
+            <div class="stats">
+                <p>Кроків: <span id="steps">0</span></p>
+                <p>Знайдено: <span id="matches">0</span> / 6</p>
+            </div>
+        </header>
+        <div class="grid" id="grid"></div>
+    </main>
+    <div id="rules-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" id="close-btn">&times;</span>
+            <h2>Memory Game</h2>
+            <h3>Правила гри</h3>
+            <ol>
+                <li>Переверніть 2 картки рубашкою донизу.</li>
+                <li>Якщо на карточках однакові зображення, то карточки прибираються зі столу.</li>
+                <li>Якщо на карточках різні зображення, то карточки перевертаються рубашкою доверху.</li>
+                <li>Якщо карточки ще лишились повторіть всі дії, починаючи з першого кроку, в іншому випадку - гра завершена.</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

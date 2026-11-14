@@ -1,0 +1,75 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('main_back.jpg');
+    background-size: cover;
+    background-position: center;
+    font-family: 'Orbitron', sans-serif;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-container h1 {
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.game-container p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.grid {
+    width: 600px;
+    height: 600px;
+    border: 3px solid #ffffff;
+    box-sizing: content-box;
+    background-image: url('game_back.jpg');
+    background-size: cover;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.grid div {
+    width: 40px;
+    height: 40px;
+}
+
+.bomb {
+    background-image: url('bomb.png');
+    background-size: cover;
+}
+
+.shooter {
+    background-image: url('shooter.png');
+    background-size: cover;
+}
+
+.shoot {
+    background-image: url('explosion.png');
+    background-size: cover;
+}
+
+.boom {
+    background-image: url('boom.png');
+    background-size: cover;
+}

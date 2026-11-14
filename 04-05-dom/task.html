@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практичне завдання: DOM та Події</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen py-10 px-4 sm:px-6 lg:px-8 font-sans text-slate-800 antialiased">
+
+<div class="max-w-5xl mx-auto space-y-10">
+    
+    <!-- Заголовок -->
+    <header class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 text-center">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Практична робота: Гра «Знайди пару»</h1>
+        <p class="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            Тема: <span class="font-semibold text-blue-600">Document Object Model (DOM) та Обробка подій</span>.<br>
+            Ваше завдання — оживити гру, використовуючи JavaScript для роботи з елементами сторінки та подіями.
+        </p>
+    </header>
+
+    <!-- Вихідні дані -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            Вихідні дані (скопіюйте у свій проєкт)
+        </h2>
+
+        <!-- Файл index.html -->
+        <details class="group bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden">
+            <summary class="flex cursor-pointer items-center justify-between p-4 font-semibold text-slate-800 hover:bg-slate-50 transition-colors select-none">
+                <span>1. Файл <code>index.html</code></span>
+                <svg class="h-5 w-5 text-slate-500 transition-transform duration-200 group-open:-rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </summary>
+            <div class="p-4 pt-0 border-t border-slate-100">
+                <p class="text-sm text-slate-500 my-3">Створіть файл <code>index.html</code> та вставте цей код. Змінювати його не потрібно.</p>
+                <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-sm font-mono"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="uk"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Memory Game - Знайди пару&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+    &lt;script src="script.js" defer&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;main class="game-container"&gt;
+        &lt;header class="header"&gt;
+            &lt;h1&gt;Memory Game&lt;/h1&gt;     
+            &lt;button id="rules-btn" class="rules-btn"&gt;Правила гри&lt;/button&gt;
+            &lt;div class="stats"&gt;
+                &lt;p&gt;Кроків: &lt;span id="steps"&gt;0&lt;/span&gt;&lt;/p&gt;
+                &lt;p&gt;Знайдено: &lt;span id="matches"&gt;0&lt;/span&gt; / 6&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/header&gt;
+        &lt;div class="grid" id="grid"&gt;&lt;/div&gt;
+    &lt;/main&gt;
+    &lt;div id="rules-modal" class="modal hidden"&gt;
+        &lt;div class="modal-content"&gt;
+            &lt;span class="close-btn" id="close-btn"&gt;&amp;times;&lt;/span&gt;
+            &lt;h2&gt;Memory Game&lt;/h2&gt;
+            &lt;h3&gt;Правила гри&lt;/h3&gt;
+            &lt;ol&gt;
+                &lt;li&gt;Переверніть 2 картки рубашкою донизу.&lt;/li&gt;
+                &lt;li&gt;Якщо на карточках однакові зображення, то карточки прибираються зі столу.&lt;/li&gt;
+                &lt;li&gt;Якщо на карточках різні зображення, то карточки перевертаються рубашкою доверху.&lt;/li&gt;
+                &lt;li&gt;Якщо карточки ще лишились повторіть всі дії, починаючи з першого кроку, в іншому випадку - гра завершена.&lt;/li&gt;
+            &lt;/ol&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </div>
+        </details>
+
+        <!-- Файл style.css -->
+        <details class="group bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden">
+            <summary class="flex cursor-pointer items-center justify-between p-4 font-semibold text-slate-800 hover:bg-slate-50 transition-colors select-none">
+                <span>2. Файл <code>style.css</code></span>
+                <svg class="h-5 w-5 text-slate-500 transition-transform duration-200 group-open:-rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </summary>
+            <div class="p-4 pt-0 border-t border-slate-100">
+                <p class="text-sm text-slate-500 my-3">Створіть файл <code>style.css</code> та додайте стилі для гри.</p>
+                <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-sm font-mono"><code>@import url('https://fonts.googleapis.com/css2?family=Philosopher&amp;family=Tenor+Sans&amp;display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('back.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Tenor Sans', sans-serif;
+}
+
+.game-container {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-family: 'Philosopher', sans-serif;
+    font-size: 40px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.stats {
+    display: flex;
+    gap: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.grid img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, opacity 0.3s ease;
+}
+
+.grid img:hover {
+    transform: translateY(-5px);
+}
+
+.grid img.matched {
+    opacity: 0.5; 
+    pointer-events: none; 
+    box-shadow: none;
+    transform: none;
+}
+
+.rules-btn {
+    padding: 8px 20px;
+    margin-bottom: 15px;
+    font-family: inherit;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.rules-btn:hover {
+    background-color: #2980b9;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.modal.hidden .modal-content {
+    transform: translateY(-20px);
+}
+
+.modal-content h2, 
+.modal-content h3 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.modal-content ol {
+    padding-left: 20px;
+    color: #34495e;
+    line-height: 1.6;
+}
+
+.modal-content li {
+    margin-bottom: 10px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #95a5a6;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+    color: #e74c3c;
+}</code></pre>
+            </div>
+        </details>
+
+        <!-- Базовий код script.js -->
+        <details class="group bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden transition-all [&_summary::-webkit-details-marker]:hidden">
+            <summary class="flex cursor-pointer items-center justify-between p-4 font-semibold text-slate-800 hover:bg-slate-50 transition-colors select-none">
+                <span>3. Базовий код <code>script.js</code> (Початок)</span>
+                <svg class="h-5 w-5 text-slate-500 transition-transform duration-200 group-open:-rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </summary>
+            <div class="p-4 pt-0 border-t border-slate-100">
+                <p class="text-sm text-slate-500 my-3">Створіть файл <code>script.js</code>. Скопіюйте туди цей масив з даними та змінні.</p>
+                <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-sm font-mono">
+<code>const baseCards = [
+    { name: 'bullbasaur', img: 'bullbasaur.png' },
+    { name: 'charmander', img: 'charmander.png' },
+    { name: 'eevee', img: 'eevee.png' },
+    { name: 'pikachu', img: 'pikachu.png' },
+    { name: 'psyduck', img: 'psyduck.png' },
+    { name: 'squirtle', img: 'squirtle.png' }
+];</code></pre>
+            </div>
+        </details>
+    </section>
+
+    <!-- Завдання -->
+    <section class="space-y-8 mt-12">
+        <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2 border-b-2 border-slate-200 pb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+            Практичні завдання
+        </h2>
+
+        <!-- Завдання 1 -->
+        <div class="bg-white rounded-xl shadow-md border-l-4 border-indigo-500 p-6 md:p-8 transition-shadow hover:shadow-lg">
+            <h3 class="text-xl md:text-2xl font-bold text-slate-800 mb-4">Завдання 1: Ініціалізація ігрового поля</h3>
+            <p class="text-slate-600 mb-4">На цьому етапі потрібно отримати необхідні елементи з DOM та динамічно створити картки на ігровому полі.</p>
+            
+            <ol class="list-decimal list-outside ml-5 space-y-3 text-slate-700 mb-6 font-medium">
+                <li>Створіть змінні для отримання елементів з HTML: сітки з id <code>grid</code>, лічильника кроків <code>steps</code> та лічильника збігів <code>matches</code>, використовуючи <code>document.querySelector</code>.</li>
+                <li>Створіть функцію <code>createBoard()</code>.</li>
+                <li>Всередині функції пройдіться циклом (наприклад, <code>forEach</code>) по масиву <code>cardsArray</code>.</li>
+                <li>Для кожного елемента масиву створити тег <code>&lt;img&gt;</code> за допомогою <code>document.createElement</code>.</li>
+                <li>Встановіть створеному тегу атрибут <code>src</code> зі значенням змінної <code>backImg</code>.</li>
+                <li>Встановіть атрибут <code>data-id</code>, який дорівнюватиме індексу поточного елемента в масиві.</li>
+                <li>Додайте створений тег <code>&lt;img&gt;</code> всередину контейнера сітки.</li>
+                <li>Викличте функцію <code>createBoard()</code> в самому кінці вашого JS файлу.</li>
+            </ol>
+
+            <div class="bg-indigo-50/60 border border-indigo-100 rounded-lg p-5">
+                <h4 class="text-xs font-bold text-indigo-900 mb-2 uppercase tracking-wider">Схематичний результат:</h4>
+                <p class="text-indigo-900 text-sm">На сторінці має з'явитися сітка 4х3 (12 карток) із зображенням "сорочки" (Покеболу).</p>
+                <div class="mt-3 flex gap-2 flex-wrap items-center">
+                    <div class="w-12 h-12 bg-white rounded shadow-sm border border-slate-300 flex items-center justify-center text-xl">🔴</div>
+                    <div class="w-12 h-12 bg-white rounded shadow-sm border border-slate-300 flex items-center justify-center text-xl">🔴</div>
+                    <div class="w-12 h-12 bg-white rounded shadow-sm border border-slate-300 flex items-center justify-center text-xl">🔴</div>
+                    <div class="w-12 h-12 bg-white rounded shadow-sm border border-slate-300 flex items-center justify-center text-xl">🔴</div>
+                    <span class="text-slate-400 text-sm font-medium ml-1">... (ще 8 карток)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Завдання 2 -->
+        <div class="bg-white rounded-xl shadow-md border-l-4 border-blue-500 p-6 md:p-8 transition-shadow hover:shadow-lg">
+            <h3 class="text-xl md:text-2xl font-bold text-slate-800 mb-4">Завдання 2: Логіка перевертання карток</h3>
+            <p class="text-slate-600 mb-4">Додамо інтерактивність — реакцію на клік гравця по картці.</p>
+            
+            <ol class="list-decimal list-outside ml-5 space-y-3 text-slate-700 mb-6 font-medium">
+                <li>Створіть функцію <code>flipCard(event)</code>.</li>
+                <li>Поверніться до функції <code>createBoard()</code> і при створенні кожної картинки додайте їй прослуховувач подій: <code>addEventListener('click', flipCard)</code>.</li>
+                <li>В <code>flipCard</code> створіть умову: якщо змінна <code>isBoardLocked</code> дорівнює <code>true</code> АБО клік відбувся по тій самій картці, яка вже записана першою в масив <code>chosenCardsElements</code> — зупиніть виконання функції (<code>return</code>).</li>
+                <li>Отримайте елемент, по якому клікнули (через <code>event.target</code>), та його атрибут <code>data-id</code>.</li>
+                <li>Змініть атрибут <code>src</code> клікнутої картки на картинку відповідного покемона з масиву <code>cardsArray</code> (використовуйте отриманий <code>data-id</code> як індекс).</li>
+                <li>Додайте клікнутий елемент у масив <code>chosenCardsElements</code>.</li>
+                <li>Перевірте: якщо довжина масиву <code>chosenCardsElements</code> дорівнює 2, збільште <code>stepsCount</code> на 1, оновіть текст в HTML (лічильник кроків).</li>
+            </ol>
+
+            <div class="bg-blue-50/60 border border-blue-100 rounded-lg p-5">
+                <h4 class="text-xs font-bold text-blue-900 mb-2 uppercase tracking-wider">Схематичний результат:</h4>
+                <p class="text-blue-900 text-sm">При кліку на картку замість сорочки з'являється покемон. Після відкриття двох карток лічильник "Кроків:" змінюється на 1.</p>
+                <div class="mt-3 flex items-center gap-4 flex-wrap">
+                    <div class="flex gap-2">
+                        <div class="w-12 h-12 bg-white rounded shadow-sm border border-blue-300 flex items-center justify-center text-xl">🐹</div>
+                        <div class="w-12 h-12 bg-white rounded shadow-sm border border-slate-300 flex items-center justify-center text-xl">🔴</div>
+                    </div>
+                    <div class="text-sm font-bold text-slate-700 border-l-2 pl-4 border-slate-300">
+                        Кроків: 1
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Завдання 3 -->
+        <div class="bg-white rounded-xl shadow-md border-l-4 border-emerald-500 p-6 md:p-8 transition-shadow hover:shadow-lg">
+            <h3 class="text-xl md:text-2xl font-bold text-slate-800 mb-4">Завдання 3: Перевірка на збіг (Match)</h3>
+            <p class="text-slate-600 mb-4">Після відкриття двох карток гра повинна визначити, чи вони однакові, і відреагувати відповідно.</p>
+            
+            <ol class="list-decimal list-outside ml-5 space-y-3 text-slate-700 mb-6 font-medium">
+                <li>Створіть функцію <code>checkCards()</code>. Викликайте її в кінці функції <code>flipCard</code>, якщо відкрито 2 картки.</li>
+                <li>На початку <code>checkCards()</code> змініть <code>isBoardLocked</code> на <code>true</code>.</li>
+                <li>Отримайте обидва елементи з масиву <code>chosenCardsElements</code> та їхні <code>data-id</code>.</li>
+                <li><strong>Якщо імена в <code>cardsArray</code> за цими id збігаються:</strong>
+                    <ul class="list-disc list-inside mt-2 ml-4 text-slate-600 font-normal space-y-1">
+                        <li>Змініть <code>src</code> обох карток на <code>winImg</code>.</li>
+                        <li>Додайте обом карткам CSS клас <code>matched</code>.</li>
+                        <li>Видаліть з обох карток прослуховувач подій кліку, щоб їх більше не можна було клікати.</li>
+                        <li>Збільште <code>matchesCount</code> на 1 і оновіть на екрані "Знайдено: ... / 6".</li>
+                        <li>Очистіть масив <code>chosenCardsElements</code> та розблокуйте дошку (<code>isBoardLocked = false</code>).</li>
+                        <li>Якщо знайдено всі 6 пар — через <code>setTimeout</code> (500мс) виведіть <code>alert</code> з привітанням та кількістю кроків.</li>
+                    </ul>
+                </li>
+                <li><strong>Якщо імена різні:</strong>
+                    <ul class="list-disc list-inside mt-2 ml-4 text-slate-600 font-normal space-y-1">
+                        <li>Використайте <code>setTimeout</code> з затримкою в 1000мс.</li>
+                        <li>Всередині таймера поверніть обом карткам атрибут <code>src</code> зі значенням <code>backImg</code>.</li>
+                        <li>Очистіть масив <code>chosenCardsElements</code> та розблокуйте дошку.</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <div class="bg-emerald-50/60 border border-emerald-100 rounded-lg p-5">
+                <h4 class="text-xs font-bold text-emerald-900 mb-2 uppercase tracking-wider">Схематичний результат:</h4>
+                <p class="text-emerald-900 text-sm">Якщо картинки різні — вони ховаються через 1 секунду. Якщо однакові — залишаються відкритими і стають напівпрозорими (завдяки класу .matched).</p>
+                <div class="mt-3 flex items-center gap-4 flex-wrap">
+                    <div class="flex gap-2">
+                        <div class="w-12 h-12 bg-white rounded shadow-sm border border-emerald-300 flex items-center justify-center text-xl opacity-60">🪙</div>
+                        <div class="w-12 h-12 bg-white rounded shadow-sm border border-emerald-300 flex items-center justify-center text-xl opacity-60">🪙</div>
+                        <div class="w-12 h-12 bg-white rounded shadow-sm border border-slate-300 flex items-center justify-center text-xl">🔴</div>
+                    </div>
+                    <div class="text-sm font-bold text-slate-700 border-l-2 pl-4 border-slate-300">
+                        Знайдено: 1 / 6
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Завдання 4 -->
+        <div class="bg-white rounded-xl shadow-md border-l-4 border-amber-500 p-6 md:p-8 transition-shadow hover:shadow-lg">
+            <h3 class="text-xl md:text-2xl font-bold text-slate-800 mb-4">Завдання 4: Модальне вікно (Правила гри)</h3>
+            <p class="text-slate-600 mb-4">Створимо скрипт для управління модальним вікном, щоб гравці могли читати правила.</p>
+            
+            <ol class="list-decimal list-outside ml-5 space-y-3 text-slate-700 mb-6 font-medium">
+                <li>Отримайте з DOM три елементи за їхніми <code>id</code>: модальне вікно (<code>rules-modal</code>), кнопку відкриття (<code>rules-btn</code>) та кнопку-хрестик (<code>close-btn</code>).</li>
+                <li>Додайте слухач подій на кнопку "Правила гри". При кліку видаляйте з модального вікна клас <code>hidden</code> (через <code>classList.remove</code>).</li>
+                <li>Додайте слухач подій на кнопку-хрестик. При кліку додавайте до модального вікна клас <code>hidden</code> (через <code>classList.add</code>).</li>
+                <li><em>Додатково:</em> Додайте слухач подій на саме модальне вікно. Якщо об'єкт, по якому клікнули (<code>event.target</code>), суворо дорівнює самому контейнеру модального вікна (темному фону, а не білому блоку всередині) — також додавайте клас <code>hidden</code>.</li>
+            </ol>
+
+            <div class="bg-amber-50/60 border border-amber-100 rounded-lg p-5">
+                <h4 class="text-xs font-bold text-amber-900 mb-2 uppercase tracking-wider">Схематичний результат:</h4>
+                <p class="text-amber-900 text-sm">При натисканні на кнопку з'являється спливаюче вікно, яке перекриває гру. Клік поза білим прямокутником (на темний фон) або на хрестик ховає його.</p>
+                <div class="mt-3 relative w-full max-w-sm h-32 bg-slate-200 flex items-center justify-center rounded overflow-hidden shadow-inner">
+                    <div class="absolute inset-0 bg-slate-900/60 flex items-center justify-center p-2">
+                        <div class="bg-white p-3 rounded-lg shadow-md text-xs font-bold w-full max-w-[220px] flex justify-between items-center border border-slate-100">
+                            <span>📄 Правила гри</span>
+                            <span class="text-slate-400 hover:text-slate-600 cursor-pointer text-sm">✕</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    
+    <footer class="text-center py-6 text-slate-500 text-sm border-t border-slate-200/60">
+        Бажаємо успіхів у написанні коду!
+    </footer>
+</div>
+
+</body>
+</html>
